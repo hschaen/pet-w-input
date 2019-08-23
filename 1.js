@@ -16,31 +16,56 @@ rl.question(">>animal? ", function(answer1) {
             animals[answer1][answer3]();
             rl.question(">>what next " + [answer1] + "?", function(answer4) {
                 animals[answer1][answer4]();
+                animals[answer1].printStats();
                 console.log("Ok, that's enough. Say bye bye to the " + answer1 + ".");
                 stopThis();   
             });
         });
     });
 });
-
-
 function DigitalPal() {
     this.hungry = false;
     this.sleepy = false;
     this.bored = true;
     this.age = 0;
     this.feed = function() {
-        (this.hungry) ? console.log("fewd. yum.") : '';
+        if (this.hungry) {
+            console.log("fewd. yum.");
+            this.hungry = false;
+            this.sleepy = true; 
+        } else {
+            console.log("am ful.");
+        }
     }
     this.sleep = function() {
-        (this.sleepy) ? console.log('Zzz.') : "";
+        
+        if (this.sleepy) {
+            console.log('Zzz.');
+            this.increaseAge();
+            this.sleepy = false;
+            this.bored = true;
+        } else {
+            console.log("am not schlep!");
+        } 
+        
     }
     this.play = function() {
-        (this.bored) ? console.log('Pleh!') : '';
+        if (this.bored) {
+            console.log('Pleh!');
+            this.bored = false;
+            this.hungry = true;
+        } else {
+            console.log("I'm gud thx.");
+        }
     }
     this.increaseAge = function() {
-        this.age++;
-        console.log("hbd 2 meh. Om " + age + "now.");
+        this.age ++;
+        console.log("hbd 2 meh. Om " + this.age + "now.");
+    }
+    this.printStats = function() {
+        console.log(this.hungry);
+        console.log(this.bored);
+        console.log(this.age);
     }
 }
 var animals = {};
@@ -50,12 +75,20 @@ animals.dog.bark = function() {
     console.log("Woof! Woof!");
 }
 animals.dog.goOutside = function() {
-    (animals.dog.outside = false) ? console.log("yeh! owsyd.") : console.log('we owsyd aready.');   
-    animals.dog.outside = true;
+    if (this.outside = false) {
+        console.log("yeh! owsyd.");
+        this.outside = true;
+    } else { 
+        console.log('we owsyd aready.');   
+    }
 }
 animals.dog.goInside = function() {
-    (animals.dog.outside = true) ? console.log("o wut?") : console.log('we insyd aready.');   
-    animals.dog.outside = false;
+    if (this.outside = true) {
+        console.log("o wut?");
+        this.outside = false;
+    } else {
+        console.log('we insyd aready.');  
+    } 
 }
 animals.cat = new DigitalPal();
 animals.cat.houseCondition = 100;
@@ -63,17 +96,17 @@ animals.cat.meow = function() {
     console.log("mehow!");
 }
 animals.cat.destroyFurniture = function() {
-    console.log(animals.cat.houseCondition);
-    while (animals.cat.houseCondition > 0) {
-        animals.cat.houseCondition -= 10;
+    console.log(this.houseCondition);
+    while (this.houseCondition > 0) {
+        this.houseCondition -= 10;
     }
-    console.log(animals.cat.houseCondition);
+    console.log(this.houseCondition);
     console.log('Muahaha. No mo shtuff.');
-    animals.cat.bored = false;
-    animals.cat.sleepy = true;
+    this.bored = false;
+    this.sleepy = true;
 }
 animals.cat.buyNewFurniture = function() {
-    console.log(animals.cat.houseCondition);
-    animals.cat.houseCondition += 50;
+    console.log(this.houseCondition);
+    this.houseCondition += 50;
     console.log("u gud?");
 }
